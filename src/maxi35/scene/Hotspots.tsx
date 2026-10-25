@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useActions } from '../state/ActionsContext';
+import { useGameState } from '../state/GameState';
 import { useAudio } from '../../shared/audio/AudioContext';
 import styles from './Scene.module.css';
 
@@ -15,7 +16,7 @@ interface Spot {
 
 const SPOTS: Spot[] = [
   { id: 'sign', x: 525, y: 75, w: 535, h: 275, label: 'LEVEL 35 – anklicken!' },
-  { id: 'guinnessSign', x: 300, y: 115, w: 140, h: 135, label: 'Guinness' },
+  { id: 'guinnessSign', x: 300, y: 115, w: 140, h: 135, label: 'Zapfhahn.exe' },
   { id: 'goodSign', x: 205, y: 115, w: 90, h: 195, label: 'Good Times' },
   { id: 'chalkboard', x: 292, y: 352, w: 180, h: 225, label: 'Next Adventures' },
   { id: 'fireplace', x: 95, y: 480, w: 105, h: 140, label: 'Kaminfeuer' },
@@ -24,7 +25,7 @@ const SPOTS: Spot[] = [
   { id: 'mushroomL', x: 92, y: 640, w: 170, h: 100, label: 'Verdächtiger Pilz' },
   { id: 'slainte', x: 470, y: 455, w: 110, h: 50, label: 'Sláinte!' },
   { id: 'wizard', x: 505, y: 445, w: 270, h: 215, label: 'Der Zauberer' },
-  { id: 'books', x: 300, y: 700, w: 265, h: 100, label: 'Bibliothek' },
+  { id: 'books', x: 300, y: 700, w: 265, h: 100, label: 'Bibliothek / Dungeon.exe' },
   { id: 'gamepad', x: 440, y: 790, w: 100, h: 55, label: 'Retro-Controller' },
   { id: 'diceRed', x: 590, y: 760, w: 70, h: 60, label: 'W20', round: true },
   { id: 'pint', x: 590, y: 630, w: 95, h: 160, label: 'Pint of Guinness' },
@@ -37,11 +38,11 @@ const SPOTS: Spot[] = [
   { id: 'disco', x: 1040, y: 60, w: 80, h: 85, label: 'Discokugel', round: true },
   { id: 'calendar', x: 1082, y: 200, w: 135, h: 135, label: 'Kalender 21.11.' },
   { id: 'mushroomR', x: 1130, y: 240, w: 130, h: 115, label: 'Psychedelischer Pilz' },
-  { id: 'neon', x: 1150, y: 75, w: 200, h: 85, label: 'Irish Pub Neon' },
+  { id: 'neon', x: 1150, y: 75, w: 200, h: 85, label: 'PubQuiz.exe' },
   { id: 'alien', x: 1190, y: 320, w: 70, h: 100, label: 'Alien' },
   { id: 'goodPeople', x: 1250, y: 175, w: 115, h: 175, label: 'Good People' },
   { id: 'cow', x: 1240, y: 395, w: 150, h: 170, label: 'Die Kuh mit Sonnenbrille' },
-  { id: 'plantsSign', x: 1310, y: 530, w: 85, h: 95, label: 'Plants make people happier' },
+  { id: 'plantsSign', x: 1310, y: 530, w: 85, h: 95, label: 'Botanik.exe' },
   { id: 'stein', x: 1420, y: 580, w: 100, h: 125, label: 'Maßkrug' },
   { id: 'boulder', x: 1425, y: 60, w: 110, h: 460, label: 'Boulderwand' },
   { id: 'feinsteTropfen', x: 1190, y: 650, w: 200, h: 165, label: 'Feinste Tropfen' },
@@ -56,6 +57,7 @@ const SPOTS: Spot[] = [
 
 export function Hotspots({ onWalker }: { onWalker: () => void }) {
   const a = useActions();
+  const gs = useGameState();
   const audio = useAudio();
   const signClicks = useRef<number[]>([]);
 
@@ -74,7 +76,7 @@ export function Hotspots({ onWalker }: { onWalker: () => void }) {
         break;
       }
       case 'guinnessSign':
-        a.notify('Guinness', ['Guinness is good for you.', 'Quelle: ein Schild in einem Pub. Peer-reviewed.'], 'info');
+        a.openApp('pour');
         break;
       case 'goodSign':
         a.notify('Good Times', 'Good Whiskey. Good Beer. Good Games. Good Times. Reihenfolge: egal, Hauptsache alle.', 'ok');
@@ -107,9 +109,19 @@ export function Hotspots({ onWalker }: { onWalker: () => void }) {
       case 'wizard':
         a.wizardSpeak();
         break;
-      case 'books':
-        a.notify('Bibliothek', ['Band I–III: dreimal gelesen, viermal verliehen, einmal zurückbekommen.', 'Das Regelwerk daneben wiegt mehr als ein Kleinwagen.'], 'info');
+      case 'books': {
+        const n = gs.inc('bookClicks');
+        if (n === 3 && !gs.data.collectibles.includes('bookmark')) {
+          gs.collect('bookmark');
+          a.notify('Fundstück', ['Zwischen Band II und III: ein Lesezeichen aus Bruchtal.', 'Ins Inventory gelegt.'], 'ok');
+        } else {
+          a.notify('Bibliothek', ['Band I–III: dreimal gelesen, viermal verliehen, einmal zurückbekommen.', 'Wer gründlich blättert, findet vielleicht etwas. Oder öffnet Dungeon.exe.'], 'info', [
+            { label: 'Dungeon.exe', primary: true, onClick: () => a.openApp('dungeon') },
+            { label: 'Schließen' },
+          ]);
+        }
         break;
+      }
       case 'gamepad':
         a.openApp('gamenight');
         break;
@@ -139,7 +151,7 @@ export function Hotspots({ onWalker }: { onWalker: () => void }) {
         a.openApp('calendar');
         break;
       case 'neon':
-        a.notify('IRISH PUB', 'Respawn Location: Irish Pub. Checkpoint gespeichert.', 'ok');
+        a.openApp('pubquiz');
         break;
       case 'alien':
         a.alien();
@@ -151,8 +163,7 @@ export function Hotspots({ onWalker }: { onWalker: () => void }) {
         a.cowToast();
         break;
       case 'plantsSign':
-        a.cloverRain();
-        a.notify('Botanik', 'Plants make people happier. Beweis: dieses Fenster.', 'ok');
+        a.openApp('botanik');
         break;
       case 'stein':
         a.clink();

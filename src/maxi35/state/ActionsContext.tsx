@@ -13,7 +13,7 @@ export interface DesktopActions {
   stopTrip: () => void;
   cloverRain: () => void;
   confetti: (opts?: { x?: number; y?: number; count?: number }) => void;
-  notify: (title: string, text: string | string[], icon?: 'info' | 'warn' | 'error' | 'ok' | 'question' | 'trophy' | 'beer' | 'whiskey') => void;
+  notify: (title: string, text: string | string[], icon?: 'info' | 'warn' | 'error' | 'ok' | 'question' | 'trophy' | 'beer' | 'whiskey', buttons?: Array<{ label: string; primary?: boolean; onClick?: () => void }>) => void;
   randomNotification: () => void;
   shutdown: () => void;
   minimizeAll: () => void;

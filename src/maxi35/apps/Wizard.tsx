@@ -5,6 +5,7 @@ import { useGameState } from '../state/GameState';
 import { useAchievements } from '../../shared/achievements/AchievementsContext';
 import { useAudio } from '../../shared/audio/AudioContext';
 import { useReducedMotion } from '../../shared/hooks/useReducedMotion';
+import { useActions } from '../state/ActionsContext';
 import styles from './Apps.module.css';
 
 export function Wizard({ close }: AppComponentProps) {
@@ -12,6 +13,7 @@ export function Wizard({ close }: AppComponentProps) {
   const ach = useAchievements();
   const audio = useAudio();
   const reduced = useReducedMotion();
+  const a = useActions();
   const [index, setIndex] = useState(() => Math.floor(Math.random() * WIZARD_WISDOM.length));
   const [shown, setShown] = useState(0);
   const text = WIZARD_WISDOM[index];
@@ -66,6 +68,15 @@ export function Wizard({ close }: AppComponentProps) {
       <div className={styles.buttons}>
         <button className="btn primary" onClick={next}>
           {shown < text.length ? 'Überspringen ▶' : 'Weiter ▶'}
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            close();
+            a.openApp('dungeon');
+          }}
+        >
+          Quest annehmen
         </button>
         <button className="btn" onClick={close}>
           Danke, Meister

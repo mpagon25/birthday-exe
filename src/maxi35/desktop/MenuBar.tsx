@@ -52,6 +52,7 @@ export function MenuBar() {
         label: 'Bier',
         entries: [
           { label: 'Pint einschenken', icon: '🍺', action: a.pourPint },
+          { label: 'Zapfhahn.exe', icon: '🍻', action: () => a.openApp('pour') },
           { label: 'Anstoßen', icon: '🥂', action: a.clink },
           { label: 'Kilkenny statt Guinness', icon: '🍻', action: () => a.notify('Bestellung', 'Ein Kilkenny. Der Barkeeper nickt anerkennend.', 'ok') },
           { sep: true, label: '' },
@@ -63,6 +64,8 @@ export function MenuBar() {
         entries: [
           { label: 'GameNight.exe', icon: '🎮', action: () => a.openApp('gamenight') },
           { label: 'Bouldern.exe', icon: '🧗', action: () => a.openApp('boulder') },
+          { label: 'Pintsweeper.exe', icon: '💣', action: () => a.openApp('sweeper') },
+          { label: 'PubQuiz.exe', icon: '🧠', action: () => a.openApp('pubquiz') },
           { label: 'Paint.exe', icon: '🎨', action: () => a.openApp('paint') },
           { label: 'My Computer – Inventory', icon: '💻', action: () => a.openApp('inventory') },
           { sep: true, label: '' },
@@ -74,6 +77,7 @@ export function MenuBar() {
         entries: [
           { label: 'W20 werfen', icon: '🎲', action: () => a.openApp('dice') },
           { label: 'Den Zauberer befragen', icon: '🧙', action: a.wizardSpeak },
+          { label: 'Dungeon.exe', icon: '🐉', action: () => a.openApp('dungeon') },
           { label: 'Quest Log', icon: '📜', action: () => a.openApp('questlog') },
           { sep: true, label: '' },
           { label: 'Charakterbogen: Level 35', disabled: true },
@@ -114,6 +118,7 @@ export function MenuBar() {
         label: 'Pflanzen',
         entries: [
           { label: 'Pflanzen gießen', icon: '🌿', action: () => { a.cloverRain(); a.notify('Botanik', 'Alle 47 Pflanzen gegossen. Die Pflanzen sind zufrieden.', 'ok'); } },
+          { label: 'Botanik.exe', icon: '🌿', action: () => a.openApp('botanik') },
           { label: 'Pilze bestimmen', icon: '🍄', action: a.startTrip },
           { label: 'Plants make people happier', disabled: true },
         ],

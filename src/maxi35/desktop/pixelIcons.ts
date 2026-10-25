@@ -33,6 +33,42 @@ export interface PixelIconDef {
 }
 
 export const PIXEL_ICONS: Record<string, PixelIconDef> = {
+  bookmark: {
+    rows: ['......kkkk......', '......krrk......', '......krrk......', '......krrk......', '......kmmk......', '......krrk......', '......krrk......', '......krrk......', '......kmmk......', '......krrk......', '......krrk......', '......krrk......', '......krrk......', '......kr.k......', '......k..k......', '................'],
+  },
+  hairball: {
+    rows: ['................', '................', '.....sSSs.......', '....sSSSSs......', '...sSsSSsSs.....', '...SSSsSSSS.....', '...sSSSSsSs.....', '...SsSSSSSs.....', '....sSSsSs......', '.....sSSs.......', '................', '................', '................', '................', '................', '................'],
+  },
+  ring: {
+    rows: ['................', '................', '.....mmmmmm.....', '....mYYYYYYm....', '...mY......Ym...', '..mY........Ym..', '..mY........Ym..', '..mY........Ym..', '..mY........Ym..', '..mY........Ym..', '...mY......Ym...', '....mYYYYYYm....', '.....mmmmmm.....', '................', '................', '................'],
+  },
+  medal: {
+    rows: ['....rr....rr....', '....rr....rr....', '....rr....rr....', '.....rr..rr.....', '.....rr..rr.....', '......kkkk......', '.....kmmmmk.....', '....kmYYYYmk....', '....kmY35Ymk....', '....kmYYYYmk....', '.....kmmmmk.....', '......kkkk......', '................', '................', '................', '................'],
+    palette: { '3': '#141414', '5': '#141414' },
+  },
+  diploma: {
+    rows: ['................', '..cccccccccccc..', '..cwwwwwwwwwwc..', '..cwkkkkkkkkwc..', '..cwwwwwwwwwwc..', '..cwkkkkkkwwwc..', '..cwwwwwwwwwwc..', '..cwkkkkkkkkwc..', '..cwwwwwwwwwwc..', '..cwwwwwrrwwwc..', '..cwwwwwrrwwwc..', '..cccccccccccc..', '........rr......', '........rr......', '................', '................'],
+  },
+  goldpint: {
+    rows: ['................', '...wwwwwwwww....', '..wccccccccw....', '..wcwwwwwwwcw...', '..kymmmmmmmyk...', '..kymmmmmmmykkk.', '..kymmmmmmmykmk.', '..kymmmmmmmykmk.', '..kymmmmmmmykmk.', '..kymmmmmmmykmk.', '..kymmmmmmmykkk.', '..kymmmmmmmyk...', '..kymmmmmmmyk...', '..kGGGGGGGGGk...', '..kkkkkkkkkkk...', '................'],
+  },
+  glowshroom: {
+    rows: ['................', '.....kkkkkk.....', '...kkppppppkk...', '..kppUppppUppk..', '.kpppUpppppppk..', '.kppppppUUpppk..', '.kpUUpppUUpppk..', '.kkkkkkkkkkkkk..', '...kcccccccck...', '...kcccUcccck...', '....kcccccck....', '....kccUcccck...', '....kcccccck....', '....kkkkkkkk....', '................', '................'],
+    palette: { p: '#b967ff', U: '#e8ccff' },
+  },
+  secretfile: {
+    rows: ['................', '..kkkkkkkkkk....', '..kwwwwwwwwkk...', '..kwwwwwwwwwkk..', '..kwkkkkkkwwwk..', '..kwwwwwwwwwwk..', '..kwkkkkkkkkwk..', '..kwwwwwwwwwwk..', '..kwkkkkkkkkwk..', '..kwwwwwwwwwwk..', '..kwkkkkkwwwwk..', '..kwwwwwwwwwwk..', '..kwwwwrrrwwwk..', '..kkkkkkkkkkkk..', '................', '................'],
+  },
+  bomb: {
+    rows: ['................', '.........k......', '........k.......', '.......kk.......', '.....kkkkkk.....', '....kkkkkkkk....', '...kkkkkkkkkk...', '...kkwkkkkkkk...', '...kkkkkkkkkk...', '...kkkkkkkkkk...', '....kkkkkkkk....', '.....kkkkkk.....', '................', '................', '................', '................'],
+  },
+  flag: {
+    rows: ['................', '......kk........', '......krrr......', '......krrrrr....', '......krrrrrrr..', '......krrrrr....', '......krrr......', '......kk........', '......kk........', '......kk........', '......kk........', '....kkkkkkk.....', '...kkkkkkkkk....', '................', '................', '................'],
+  },
+  potion: {
+    rows: ['......kkkk......', '......kccK......', '......kcck......', '.....kkcckk.....', '....kccccccck...', '...kcppppppcck..', '...kpPpppppppk..', '...kppppppppkk..', '...kpppppppppk..', '...kpPppppppkk..', '....kpppppppk...', '.....kkkkkkk....', '................', '................', '................', '................'],
+    palette: { K: '#141414' },
+  },
   clover: {
     rows: [
       '................',

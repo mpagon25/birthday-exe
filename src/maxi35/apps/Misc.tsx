@@ -5,6 +5,8 @@ import { useAudio } from '../../shared/audio/AudioContext';
 import { useGameState } from '../state/GameState';
 import { useAchievements } from '../../shared/achievements/AchievementsContext';
 import { useWindowManager } from '../desktop/WindowManager';
+import { DIR_LISTING, SECRET_TXT } from '../content/texts';
+import { useAchievements as useAch } from '../../shared/achievements/AchievementsContext';
 import { useInterval } from '../../shared/hooks/useInterval';
 import { music } from '../audio/music';
 import styles from './Apps.module.css';
@@ -271,6 +273,8 @@ export function Settings({ close }: AppComponentProps) {
 export function Run({ close }: AppComponentProps) {
   const a = useActions();
   const audio = useAudio();
+  const gs = useGameState();
+  const achv = useAch();
   const [cmd, setCmd] = useState('');
   const [out, setOut] = useState('C:\\MAXI35> _\nTipp: help');
   const input = useRef<HTMLInputElement>(null);
@@ -284,7 +288,59 @@ export function Run({ close }: AppComponentProps) {
     switch (c) {
       case 'help':
       case '?':
-        text = 'Befehle: party, trip, beer, prost, dice, whiskey, rabbit, radio, bsod, achievements, clover, y, n, exit';
+        text = 'Befehle: dir, party, trip, beer, prost, dice, whiskey, rabbit, radio, quiz, dungeon, sweeper, zapfen, botanik, bsod, achievements, clover, y, n, exit';
+        break;
+      case 'dir':
+      case 'ls':
+        text = DIR_LISTING;
+        audio.play('tick');
+        break;
+      case 'secret.txt':
+      case 'type secret.txt':
+      case 'cat secret.txt':
+        text = SECRET_TXT.join('\n');
+        audio.play('xp');
+        gs.collect('secretfile');
+        achv.unlock('secretfile');
+        break;
+      case 'dont_open.exe':
+      case 'dont_open':
+        text = 'Du wurdest gewarnt.';
+        a.startTrip();
+        break;
+      case 'whiskey.dll':
+        text = 'whiskey.dll wird geladen...';
+        a.showVoucher();
+        break;
+      case 'autoexec.bat':
+        text = '@echo off\nkaffee.exe /stark\necho Guten Morgen, Level 35.';
+        a.openApp('kaffee');
+        break;
+      case 'config.sys':
+        text = 'DEVICE=C:\\MAXI35\\PFLANZEN.SYS\nPFLANZEN=gegossen\nKATZE=schlaeft';
+        break;
+      case 'quiz':
+        a.openApp('pubquiz');
+        text = 'PubQuiz.exe gestartet.';
+        break;
+      case 'dungeon':
+        a.openApp('dungeon');
+        text = 'Dungeon.exe gestartet.';
+        break;
+      case 'sweeper':
+      case 'minesweeper':
+        a.openApp('sweeper');
+        text = 'Pintsweeper.exe gestartet.';
+        break;
+      case 'zapfen':
+      case 'pour':
+        a.openApp('pour');
+        text = 'Zapfhahn.exe gestartet.';
+        break;
+      case 'botanik':
+      case 'memory':
+        a.openApp('botanik');
+        text = 'Botanik.exe gestartet.';
         break;
       case 'party':
         a.startParty();
@@ -358,7 +414,7 @@ export function Run({ close }: AppComponentProps) {
         audio.play('error');
         text = `Datei "${cmd}" nicht gefunden. Vielleicht im Pub?`;
     }
-    setOut((o) => `${o}\nC:\\MAXI35> ${cmd}\n${text}`.split('\n').slice(-8).join('\n'));
+    setOut((o) => `${o}\nC:\\MAXI35> ${cmd}\n${text}`.split('\n').slice(-12).join('\n'));
     setCmd('');
   };
 

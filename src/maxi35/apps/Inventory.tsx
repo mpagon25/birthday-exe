@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { AppComponentProps } from '../desktop/types';
-import { INVENTORY_ITEMS } from '../content/texts';
+import { COLLECTIBLES, INVENTORY_ITEMS } from '../content/texts';
 import { useActions } from '../state/ActionsContext';
 import { useAudio } from '../../shared/audio/AudioContext';
 import { useGameState } from '../state/GameState';
@@ -79,6 +79,31 @@ export function Inventory({ close }: AppComponentProps) {
           </div>
           <p style={{ margin: '0 0 10px' }}>{item.desc}</p>
           <button className="btn primary" onClick={use}>Benutzen</button>
+        </div>
+      </div>
+      <div className={styles.h2}>Fundstücke {game.data.collectibles.length}/{COLLECTIBLES.length}</div>
+      <div className={styles.row} style={{ alignItems: 'flex-start' }}>
+        <div className={styles.lootGrid}>
+          {COLLECTIBLES.map((c) => {
+            const has = game.data.collectibles.includes(c.id);
+            return (
+              <button
+                key={c.id}
+                className={`btn ${styles.lootSlot} ${has ? '' : styles.missing}`}
+                title={has ? c.name : 'Noch nicht gefunden'}
+                aria-label={has ? c.name : 'Unbekanntes Fundstück'}
+                onClick={() => {
+                  audio.play('click');
+                  a.notify(has ? c.name : 'Noch nicht gefunden', has ? c.desc : `Hinweis: ${c.hint}`, has ? 'ok' : 'question');
+                }}
+              >
+                {has ? <PixelIcon name={c.icon} size={40} /> : <span className={styles.q}>?</span>}
+              </button>
+            );
+          })}
+        </div>
+        <div className={`bevel-in ${styles.invDetail}`} style={{ fontSize: 12 }}>
+          Versteckt im ganzen Pub: in Spielen, Büchern, Katzen und Dateien. Ein Klick auf ein leeres Feld gibt einen Hinweis. Alle acht ergeben den Loot Goblin.
         </div>
       </div>
       <div className={styles.buttons}>

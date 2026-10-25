@@ -14,6 +14,11 @@ import { Achievements } from './Achievements';
 import { Paint } from './Paint';
 import { Radio } from './Radio';
 import { About, GameNight, Kaffee, QuestLog, Run, Settings } from './Misc';
+import { PubQuiz } from './PubQuiz';
+import { PourGame } from './PourGame';
+import { Dungeon } from './Dungeon';
+import { Pintsweeper } from './Pintsweeper';
+import { Botanik } from './Botanik';
 
 export const registry: AppRegistry = {
   msgbox: { title: 'Meldung', icon: 'info', width: 360, height: 10, component: MessageBox, singleton: false, skipTaskbar: true },
@@ -34,6 +39,11 @@ export const registry: AppRegistry = {
   gamenight: { title: 'GameNight.exe', icon: 'game', width: 520, height: 10, component: GameNight, program: true },
   kaffee: { title: 'Kaffee_irl.exe', icon: 'coffee', width: 380, height: 10, component: Kaffee, program: true },
   questlog: { title: 'QuestLog.exe', icon: 'scroll', width: 420, height: 10, component: QuestLog, program: true },
+  pubquiz: { title: 'PubQuiz.exe', icon: 'book', width: 460, height: 10, component: PubQuiz, program: true },
+  pour: { title: 'Zapfhahn.exe', icon: 'beer', width: 420, height: 10, component: PourGame, program: true },
+  dungeon: { title: 'Dungeon.exe', icon: 'wizard', width: 560, height: 10, component: Dungeon, program: true },
+  sweeper: { title: 'Pintsweeper.exe', icon: 'bomb', width: 340, height: 10, component: Pintsweeper, program: true },
+  botanik: { title: 'Botanik.exe', icon: 'plant', width: 360, height: 10, component: Botanik, program: true },
   about: { title: 'Über Maxi35.exe', icon: 'info', width: 420, height: 10, component: About },
   settings: { title: 'Einstellungen', icon: 'window', width: 420, height: 10, component: Settings },
   run: { title: 'Ausführen', icon: 'window', width: 420, height: 10, component: Run },

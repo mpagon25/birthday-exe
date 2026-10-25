@@ -144,3 +144,153 @@ Das aktuelle Lebensjahr wird beendet.
   Das funktioniert nicht. Niemand weiß warum.
 
 Drücken Sie eine beliebige Taste, um fortzufahren _`;
+
+/* ---------- PubQuiz.exe ---------- */
+export interface QuizQuestion {
+  q: string;
+  options: string[];
+  correct: number;
+  comment: string;
+}
+export const QUIZ_QUESTIONS: QuizQuestion[] = [
+  { q: 'Der wichtigste Gegenstand in jedem Fantasy-Inventar?', options: ['Heiltrank', 'Brezn', 'Ein unerklärlich schwerer Stein', '47 Lederstreifen'], correct: 1, comment: 'Brezn. Heilt 20 HP und Heimweh.' },
+  { q: 'Ein Zauberer kommt...', options: ['nie zu spät', 'immer zu früh', 'nur mit Whiskey', 'per Postkutsche'], correct: 0, comment: 'Er erscheint genau dann, wenn das nächste Bier kommt.' },
+  { q: 'Wie viele Pints sind ein Pint zu viel?', options: ['Eins', 'Drei', 'Das nächste', 'Keins'], correct: 2, comment: 'Das nächste. Immer das nächste.' },
+  { q: 'Natural 20 beim Bouldern bedeutet:', options: ['Top erreicht', 'Hautfetzen', 'Beides', 'Crashpad vergessen'], correct: 2, comment: 'Beides. Grip Strength +10, Haut -10.' },
+  { q: 'Was sagt der Barkeeper bei „Noch eins“?', options: ['Natürlich', 'Nein', 'Die Küche hat zu', 'Sláinte'], correct: 3, comment: 'Sláinte. Alles andere wäre unhöflich.' },
+  { q: 'Welche Klasse spielt die Katze?', options: ['Schurke', 'Barde', 'Möbelstück', 'Endboss'], correct: 3, comment: 'Endboss. Mit Schlafresistenz.' },
+  { q: 'Lembas oder Brezn?', options: ['Lembas', 'Brezn', 'Ja', 'Beides, mit Obazda'], correct: 3, comment: 'Bavarian DLC installed.' },
+  { q: 'Der Weg nach Mordor führt...', options: ['über die Berge', 'durch Moria', 'über die Bar', 'entlang eines Wanderwegs mit Hütte'], correct: 2, comment: 'One does not simply walk past the bar.' },
+  { q: 'Der beste Whiskey ist...', options: ['der torfige', 'der milde', 'der aus dem Sherry-Fass', 'der, den jemand anderes bezahlt'], correct: 3, comment: 'Whiskey Knowledge: 12%. Lebensweisheit: 100%.' },
+  { q: 'Game Night, Regel Nr. 1:', options: ['Der Erklärbär hat immer recht', 'Keine Snacks am Tisch', 'Mit beiden Händen würfeln', 'Nicht weinen'], correct: 0, comment: 'Regel Nr. 2: Siehe Regel Nr. 1.' },
+  { q: 'Was passiert bei Error 418?', options: ['Teekanne', 'Pint', 'Neustart', 'BSOD'], correct: 0, comment: "I'm a teapot. But I'd rather be a pint." },
+  { q: 'Wie viele offene Tabs sind zu viele?', options: ['10', '50', 'Alle', 'Die Frage ist falsch gestellt'], correct: 3, comment: 'Warning: Too many open tabs in life.' },
+];
+export const QUIZ_RATING = (correct: number, total: number): string =>
+  correct === total ? 'Quizmaster von Bruchtal' : correct >= total * 0.7 ? 'Ehrenmitglied der Fellowship of the Pint' : correct >= total * 0.4 ? 'Lehrling des Barkeepers' : 'Respawn Location: Irish Pub';
+
+/* ---------- Dungeon.exe ---------- */
+export type Stat = 'STR' | 'CHA' | 'LUCK';
+export interface DungeonChoice {
+  label: string;
+  stat?: Stat;
+  dc?: number;
+  costGold?: number;
+  success: { text: string; hp?: number; gold?: number; item?: string };
+  fail?: { text: string; hp?: number; gold?: number };
+}
+export interface DungeonRoom {
+  id: string;
+  title: string;
+  text: string;
+  choices: DungeonChoice[];
+}
+export const DUNGEON_ROOMS: DungeonRoom[] = [
+  {
+    id: 'bridge',
+    title: 'Die Brücke von Khazad-Bar',
+    text: 'Ein Troll versperrt die Brücke. Er riecht nach altem Kilkenny und verlangt Maut.',
+    choices: [
+      { label: '5 Gold zahlen', costGold: 5, success: { text: 'Der Troll nickt. „Angenehmen Abend.“ Höflicher Troll.', gold: -5 } },
+      { label: 'Überreden (CHA)', stat: 'CHA', dc: 12, success: { text: 'Du erzählst ihm von der Happy Hour. Er lässt dich durch und folgt dir fast.', gold: 2 }, fail: { text: 'Der Troll lacht. Dann schubst er dich. Ins Wasser.', hp: -3 } },
+      { label: 'Angreifen (STR)', stat: 'STR', dc: 14, success: { text: 'Kritischer Treffer mit dem Maßkrug. Der Troll geht schlafen.', gold: 6, item: 'Trollzahn' }, fail: { text: 'Der Troll pariert mit einem Tisch. Autsch.', hp: -4 } },
+    ],
+  },
+  {
+    id: 'gollum',
+    title: 'Gollums Kammer',
+    text: 'Eine bleiche Gestalt schleicht heran. „Mein Schatz...“, zischt sie und starrt auf deine Brezn.',
+    choices: [
+      { label: 'Brezn teilen', success: { text: 'Gollum ist gerührt. Er zeigt dir einen Geheimgang und 4 Gold.', gold: 4 } },
+      { label: 'Rätselwettstreit (LUCK)', stat: 'LUCK', dc: 11, success: { text: '„Was hat Hopfen und ist nie allein?“ Gollum gibt auf. Du bekommst seinen Ring.', item: 'Ein Ring (nicht DER Ring)' }, fail: { text: 'Du verlierst beim Rätsel um die Brezn. Hunger.', hp: -2 } },
+      { label: 'Weglaufen', success: { text: 'Du rennst. Gollum ruft dir Beleidigungen nach. Kreative Beleidigungen.' } },
+    ],
+  },
+  {
+    id: 'tavern',
+    title: 'Die Taverne der Zwei Türme',
+    text: 'Ein Zwischenstopp. Der Wirt poliert ein Glas, das schon sauber ist.',
+    choices: [
+      { label: 'Ein Pint (1 Gold, +2 HP)', costGold: 1, success: { text: 'Guinness. Dunkel, cremig, heilend. Wissenschaftlich belegt.', hp: 2, gold: -1 } },
+      { label: 'Würfeln um Gold (LUCK)', stat: 'LUCK', dc: 11, success: { text: 'Natural Win. Die Zwerge am Nebentisch zahlen zähneknirschend.', gold: 7 }, fail: { text: 'Die Zwerge hatten gezinkte Würfel. Natürlich.', gold: -3 } },
+      { label: 'Weiterziehen', success: { text: 'Keine Zeit für Pints. Mutig. Fragwürdig.' } },
+    ],
+  },
+  {
+    id: 'shrooms',
+    title: 'Der Pilzwald',
+    text: 'Zwischen den Bäumen leuchten Pilze in Farben, die es nicht geben sollte.',
+    choices: [
+      { label: 'Pilz probieren (LUCK)', stat: 'LUCK', dc: 13, success: { text: 'Heilpilz! Du siehst kurz die Matrix, dann geht es dir prächtig.', hp: 4, item: 'Leuchtpilz' }, fail: { text: 'Reality.exe has stopped responding. Du wachst mit Kopfweh auf.', hp: -3 } },
+      { label: 'Pilze sammeln', success: { text: 'Du sammelst, ohne zu essen. Verantwortungsbewusstsein found.', gold: 3 } },
+      { label: 'Vorsichtig umgehen', success: { text: 'Botanik mit Sicherheitsabstand. Die Pilze winken dir zu. Vermutlich.' } },
+    ],
+  },
+  {
+    id: 'wall',
+    title: 'Die Boulderwand des Schicksals',
+    text: 'Eine senkrechte Wand mit bunten Griffen. Oben wartet eine Abkürzung. Unten eine Matte, die schon bessere Tage sah.',
+    choices: [
+      { label: 'Hochklettern (STR)', stat: 'STR', dc: 12, success: { text: 'Flash! Oben liegt eine Schatztruhe mit Chalk und Gold.', gold: 5, item: 'Magischer Chalkbag' }, fail: { text: 'Der Griff bröselt. Die Matte fängt dich. Halbwegs.', hp: -3 } },
+      { label: 'Außenrum laufen', success: { text: 'Der lange Weg. Dafür mit Aussicht und einer Hütte mit Bier.', hp: 1 } },
+    ],
+  },
+  {
+    id: 'merchant',
+    title: 'Der fahrende Händler',
+    text: 'Ein Händler mit zu vielen Ringen bietet Heiltränke an. „Frisch gebraut. Gestern. Oder letztes Jahr.“',
+    choices: [
+      { label: 'Heiltrank kaufen (4 Gold, +4 HP)', costGold: 4, success: { text: 'Schmeckt nach Whiskey und Hustensaft. Wirkt.', hp: 4, gold: -4 } },
+      { label: 'Feilschen (CHA)', stat: 'CHA', dc: 13, success: { text: 'Er gibt dir den Trank für ein Lächeln. Und einen Kaffee obendrauf.', hp: 4, item: 'Kaffee der Elben' }, fail: { text: 'Er verkauft dir eine Karte von einem Ort, der nicht existiert.', gold: -2 } },
+      { label: 'Nichts kaufen', success: { text: 'Sparsam. Dein Konto freut sich, deine HP nicht.' } },
+    ],
+  },
+  {
+    id: 'library',
+    title: 'Die Bibliothek von Minas Pint',
+    text: 'Staubige Bände. Eines der Bücher heißt „Zaubersprüche für Barkeeper, Band III“.',
+    choices: [
+      { label: 'Spruch lernen (CHA)', stat: 'CHA', dc: 10, success: { text: 'Du lernst „Feuerball of Sláinte“. +2 auf alle Würfe gegen Bossgegner.', item: 'Feuerball of Sláinte' }, fail: { text: 'Du liest drei Stunden das Regelwerk. Es ist jetzt Nacht.', hp: -1 } },
+      { label: 'Nur stöbern', success: { text: 'Du findest einen Gutschein für ein Whiskeytasting zwischen den Seiten. Zufall? Nein.', gold: 2 } },
+    ],
+  },
+  {
+    id: 'cat',
+    title: 'Der Schrein der Schlafenden Katze',
+    text: 'Eine Katze schläft auf einem Altar. Sie ist eindeutig der Endboss dieses Raumes. Sie weiß es.',
+    choices: [
+      { label: 'Streicheln (LUCK)', stat: 'LUCK', dc: 9, success: { text: 'Sie schnurrt. Du erhältst den Segen der Katze: +3 HP.', hp: 3 }, fail: { text: 'Krallen. Sofort. Ohne Vorwarnung.', hp: -2 } },
+      { label: 'Leise vorbeischleichen', success: { text: 'Die Katze öffnet ein Auge. Schließt es wieder. Du darfst leben.' } },
+    ],
+  },
+];
+export const DUNGEON_BOSS = {
+  title: 'Der Balrog der Bar',
+  text: 'Am Ende des Dungeons: ein Balrog hinter dem Tresen. Er poliert ein Glas mit Feuer. „Letzte Runde“, grollt er.',
+  hits: 3,
+  dc: 12,
+};
+
+/* ---------- Fundstücke ---------- */
+export const COLLECTIBLES: Array<{ id: string; name: string; icon: string; hint: string; desc: string }> = [
+  { id: 'bookmark', name: 'Lesezeichen aus Bruchtal', icon: 'bookmark', hint: 'Jemand hat dreimal in den Büchern geblättert.', desc: 'Liegt auf Seite 342 von Band III. Seit 2014.' },
+  { id: 'hairball', name: 'Haarball der Katze', icon: 'hairball', hint: 'Die Katze gibt nur beharrlichen Streichlern ein Geschenk.', desc: 'Ein Geschenk. Die Katze besteht darauf.' },
+  { id: 'ring', name: 'Ein Ring (nicht DER Ring)', icon: 'ring', hint: 'Wer den Balrog der Bar besiegt, bekommt ihn.', desc: 'Macht nicht unsichtbar. Macht durstig.' },
+  { id: 'medal', name: 'Pintsweeper-Medaille', icon: 'medal', hint: 'Ein Feld ohne verschüttetes Pint.', desc: 'Für das Aufräumen eines ganzen Minenfelds voller Pints.' },
+  { id: 'diploma', name: 'Diplom des Pub-Quiz', icon: 'diploma', hint: 'Acht richtige Antworten. Mindestens.', desc: 'Verliehen von der Universität des Irish Pub. Akkreditiert von niemandem.' },
+  { id: 'goldpint', name: 'Goldenes Pint', icon: 'goldpint', hint: 'Fünf perfekte Pints in einer Schicht.', desc: 'Der Barkeeper hat geweint. Vor Freude. Vermutlich.' },
+  { id: 'glowshroom', name: 'Leuchtpilz', icon: 'glowshroom', hint: 'Ein Memory mit sehr gutem Gedächtnis.', desc: 'Leuchtet im Dunkeln. Und bei Tageslicht. Immer.' },
+  { id: 'secretfile', name: 'SECRET.TXT', icon: 'secretfile', hint: 'Im Ausführen-Dialog gibt es ein Verzeichnis.', desc: 'Enthält den Inhalt von SECRET.TXT. Logisch.' },
+];
+
+export const DIR_LISTING = `Verzeichnis von C:\\MAXI35
+
+AUTOEXEC  BAT       35  21.11.  Startet den Tag mit Kaffee
+CONFIG    SYS      420  21.11.  Pflanzen=gegossen
+WHISKEY   DLL    1.337  21.11.  Siehe Gutschein
+SECRET    TXT       33  21.11.  Nicht öffnen
+DONT_OPEN EXE  1.000.000 21.11. Wirklich nicht öffnen
+        5 Datei(en)     1.001.855 Bytes
+        0 Verzeichnis(se)  35 Jahre frei`;
+
+export const SECRET_TXT = ['SECRET.TXT:', '„Level 35 ist nicht das Ende. Es ist der Patch, in dem endlich die guten Quests freigeschaltet werden.“', 'PS: Das Kaninchen weiß mehr.'];
