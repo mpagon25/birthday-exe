@@ -6,6 +6,7 @@ import { AchievementsProvider } from '../shared/achievements/AchievementsContext
 import { GameStateProvider, useGameState } from './state/GameState';
 import { M_ACHIEVEMENTS } from './content/achievements';
 import { MichelleGame } from './MichelleGame';
+import { mMusic } from './audio/tracks';
 
 function WithXp() {
   const gs = useGameState();
@@ -21,6 +22,7 @@ export function App() {
     document.documentElement.style.colorScheme = 'dark';
     return () => {
       document.documentElement.style.colorScheme = '';
+      mMusic.stop();
     };
   }, []);
   return (

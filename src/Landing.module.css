@@ -1,28 +1,110 @@
 .page {
   position: fixed;
   inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: radial-gradient(ellipse at 50% 40%, #16161c, #09090b 70%);
+  color: #e6e6e6;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+}
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0 2px, transparent 2px 4px);
+  pointer-events: none;
+}
+.header { text-align: center; padding: clamp(20px, 6vh, 56px) 16px 0; }
+.title {
+  margin: 0;
+  font-size: clamp(14px, 2.6vw, 26px);
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 3px 3px 0 #000;
+}
+.footer {
+  text-align: center;
+  padding: 0 16px clamp(20px, 6vh, 56px);
+  font-size: clamp(7px, 1vw, 10px);
+  letter-spacing: 2px;
+  color: #666;
+  animation: blink 1.2s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }
+
+/* ---------- cartridges ---------- */
+.slots {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: clamp(24px, 6vw, 96px);
+  padding: 24px;
   flex-wrap: wrap;
-  background: #fff;
-  font-family: 'MS Sans Serif', Tahoma, 'Segoe UI', Arial, sans-serif;
 }
-.btn {
-  display: inline-block;
-  padding: 10px 28px;
-  font-size: 16px;
-  color: #000;
+.cart {
+  position: relative;
+  width: clamp(220px, 28vw, 320px);
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 22px 22px;
+  background: #2a2a2e;
+  border: 4px solid #000;
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: inset 0 0 0 3px #3c3c42, inset 0 -14px 0 #1c1c20, 10px 10px 0 rgba(0, 0, 0, 0.6);
   text-decoration: none;
-  background: #c0c0c0;
-  border: 2px solid;
-  border-color: #fff #000 #000 #fff;
-  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
-  user-select: none;
+  color: inherit;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, opacity 0.4s;
+  outline: none;
 }
-.btn:active {
-  border-color: #000 #fff #fff #000;
-  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+.cart:hover, .cart:focus-visible { transform: translateY(-10px); }
+.cart:active { transform: translateY(-4px); }
+.cart.selected { transform: translateY(60px); opacity: 0; }
+.cart.dim { opacity: 0.25; }
+
+.grip { display: flex; gap: 6px; }
+.grip i { display: block; width: 44px; height: 6px; background: #1c1c20; box-shadow: inset 0 -2px 0 #0a0a0a, 0 1px 0 #3c3c42; }
+
+.label {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #0a0a0a;
+  border: 3px solid #000;
+  box-shadow: inset 0 0 0 2px #3c3c42;
+  padding: 16px 10px;
+  text-align: center;
+  transition: box-shadow 0.25s, border-color 0.25s;
 }
-.btn:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+.player { font-size: 9px; color: #777; letter-spacing: 2px; }
+.name { font-size: clamp(10px, 1.3vw, 14px); line-height: 1.6; color: #e6e6e6; }
+.level { font-size: 8px; color: #999; letter-spacing: 1px; }
+.press { font-size: 8px; color: #555; letter-spacing: 1px; transition: color 0.25s; }
+.cart:hover .press, .cart:focus-visible .press { animation: blink 0.8s steps(2, start) infinite; }
+
+/* The only hint: each cartridge glows in its world's colour. */
+.michelle33:hover, .michelle33:focus-visible { box-shadow: inset 0 0 0 3px #3c3c42, inset 0 -14px 0 #1c1c20, 10px 10px 0 rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 63, 164, 0.55); }
+.michelle33:hover .label, .michelle33:focus-visible .label { box-shadow: inset 0 0 0 2px #ff3fa4, inset 0 0 30px rgba(255, 63, 164, 0.2); }
+.michelle33:hover .name, .michelle33:focus-visible .name { color: #ff3fa4; text-shadow: 0 0 12px rgba(255, 63, 164, 0.8); }
+.michelle33:hover .press, .michelle33:focus-visible .press { color: #ff7fc3; }
+
+.maxi35:hover, .maxi35:focus-visible { box-shadow: inset 0 0 0 3px #3c3c42, inset 0 -14px 0 #1c1c20, 10px 10px 0 rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 132, 208, 0.55); }
+.maxi35:hover .label, .maxi35:focus-visible .label { box-shadow: inset 0 0 0 2px #1084d0, inset 0 0 30px rgba(0, 128, 128, 0.25); }
+.maxi35:hover .name, .maxi35:focus-visible .name { color: #6fb1ff; text-shadow: 0 0 12px rgba(16, 132, 208, 0.8); }
+.maxi35:hover .press, .maxi35:focus-visible .press { color: #f2c14e; }
+
+@media (max-width: 600px) {
+  .slots { gap: 18px; padding: 12px; }
+  .cart { width: min(78vw, 300px); aspect-ratio: 4 / 3; padding: 16px 16px 14px; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer, .cart:hover .press { animation: none !important; }
+  .cart, .label, .press { transition: none !important; }
+}
