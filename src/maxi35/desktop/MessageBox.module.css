@@ -1,0 +1,7 @@
+.box { padding: 12px 14px 12px; display: flex; flex-direction: column; gap: 14px; }
+.content { display: flex; gap: 14px; align-items: flex-start; }
+.icon { flex: none; padding-top: 2px; }
+.text { flex: 1; font-size: 13px; line-height: 1.4; }
+.text p { margin: 0 0 6px; }
+.text p:last-child { margin-bottom: 0; }
+.buttons { display: flex; justify-content: center; gap: 8px; }

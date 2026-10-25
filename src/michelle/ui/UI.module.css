@@ -1,0 +1,177 @@
+/* ---------- fixed layers (viewport px, not stage px) ---------- */
+.hud {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+}
+.hud > * { pointer-events: auto; }
+.hudBox { padding: 8px 10px; min-width: 190px; font-size: 16px; }
+.hudRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hudLevel { font-family: var(--m-font-head); font-size: 10px; color: var(--m-gold); }
+.hudXp { font-family: var(--m-font-head); font-size: 8px; color: var(--m-pink-2); }
+.hudBtns { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.hudBtns .pxbtn { font-size: 12px; padding: 6px 8px; min-width: 34px; }
+.chaos { width: 190px; }
+.chaos .lbl { font-family: var(--m-font-head); font-size: 7px; color: var(--m-pink); margin-bottom: 3px; }
+.god { font-family: var(--m-font-head); font-size: 8px; color: #fff; background: linear-gradient(90deg, #ff3fa4, #f2c14e, #4cd964, #6fb1ff, #ff3fa4); background-size: 300% 100%; animation: godShift 2s linear infinite; padding: 6px 8px; border: 3px solid #000; box-shadow: 3px 3px 0 #000; }
+@keyframes godShift { to { background-position: 300% 0; } }
+
+/* ---------- dialog box ---------- */
+.dialogWrap {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: min(900px, calc(100vw - 24px));
+  z-index: 320;
+}
+.dialog { padding: 14px 18px 12px; cursor: pointer; display: flex; gap: 14px; align-items: flex-start; }
+.dialogPortrait { width: 64px; height: 64px; border: 3px solid var(--m-gold); background: #000 url('/michelle.webp') -330px -360px / 1536px 1024px no-repeat; image-rendering: pixelated; flex: none; box-shadow: 3px 3px 0 #000; }
+.dialogPortrait.system { background: var(--m-black); display: flex; align-items: center; justify-content: center; }
+.dialogText { flex: 1; font-size: 24px; min-height: 60px; line-height: 1.2; }
+.dialogSpeaker { font-family: var(--m-font-head); font-size: 10px; color: var(--m-pink); margin-bottom: 6px; }
+.dialogCursor { display: inline-block; animation: blink 0.7s steps(2, start) infinite; color: var(--m-pink); }
+.dialogHint { font-family: var(--m-font-head); font-size: 7px; color: var(--m-gold); text-align: right; opacity: 0.8; margin-top: 4px; }
+
+/* ---------- modal ---------- */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 340;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.modal {
+  width: min(var(--mw, 720px), calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+}
+.modalHead { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-bottom: 4px solid var(--m-gold); background: var(--m-black); }
+.modalBody { padding: 14px; overflow: auto; min-height: 0; }
+.modalClose { font-size: 12px; padding: 8px 10px; }
+
+/* ---------- toasts ---------- */
+.toasts { position: fixed; top: 8px; left: 8px; z-index: 330; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { width: min(360px, calc(100vw - 16px)); padding: 10px 12px; display: flex; gap: 12px; align-items: center; pointer-events: auto; cursor: pointer; animation: toastFrame 0.5s steps(2) infinite; }
+@keyframes toastFrame { 50% { box-shadow: 0 0 0 4px var(--m-black), 0 0 0 6px var(--m-gold), 10px 10px 0 0 rgba(0, 0, 0, 0.6); } }
+.toastIcon { flex: none; animation: bounce 0.5s steps(2) infinite; }
+@keyframes bounce { 50% { transform: translateY(-4px) rotate(8deg); } }
+.toastHead { font-family: var(--m-font-head); font-size: 8px; color: var(--m-gold); }
+.toastTitle { font-family: var(--m-font-head); font-size: 10px; color: var(--m-pink); margin: 4px 0; line-height: 1.5; }
+.toastDesc { font-size: 17px; }
+.toastXp { font-family: var(--m-font-head); font-size: 8px; color: #4cd964; margin-top: 3px; }
+
+/* ---------- event banner ---------- */
+.banner {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 310;
+  padding: 8px 16px;
+  font-family: var(--m-font-head);
+  font-size: 11px;
+  color: var(--m-gold);
+  pointer-events: none;
+  animation: bannerIn 0.3s steps(3) both;
+  white-space: nowrap;
+  max-width: calc(100vw - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@keyframes bannerIn { from { transform: translate(-50%, -40px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+/* ---------- achievements list ---------- */
+.achList { display: grid; gap: 6px; }
+.achItem { display: flex; gap: 12px; align-items: center; padding: 8px 10px; background: var(--m-black); border: 3px solid var(--m-green-2); }
+.achItem.has { border-color: var(--m-gold); }
+.achItem.locked { opacity: 0.55; }
+.achItem.locked svg { filter: grayscale(1); }
+.achName { font-family: var(--m-font-head); font-size: 9px; color: var(--m-pink); line-height: 1.6; }
+.achItem.locked .achName { color: var(--m-cream); }
+.achDesc { font-size: 17px; }
+
+/* ---------- settings ---------- */
+.setRow { display: flex; align-items: center; gap: 12px; font-size: 20px; }
+.setRow input[type='range'] { flex: 1; accent-color: var(--m-pink); }
+.setRow input[type='checkbox'] { width: 20px; height: 20px; accent-color: var(--m-pink); }
+
+/* ---------- voucher ---------- */
+.voucher {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.08), transparent 35%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0 2px, transparent 2px 4px),
+    linear-gradient(170deg, #16402b, #0f2a1d 60%, #0a1a12);
+  padding: 26px 24px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.voucher::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 3px solid var(--m-gold);
+  box-shadow: inset 0 0 0 3px var(--m-black), inset 0 0 0 5px var(--m-pink);
+  pointer-events: none;
+}
+.vQuest { font-family: var(--m-font-head); font-size: 14px; color: #4cd964; text-shadow: 3px 3px 0 #000; animation: pulse 1s steps(2) infinite; }
+.vReward { font-family: var(--m-font-head); font-size: 10px; color: var(--m-gold); margin: 10px 0 18px; }
+.vTitle { font-family: var(--m-font-head); font-size: clamp(12px, 2.6vw, 20px); color: var(--m-pink); text-shadow: 3px 3px 0 #000, 0 0 14px var(--m-pink); line-height: 1.7; margin: 8px 0; }
+.vDate { font-family: var(--m-font-head); font-size: clamp(28px, 6vw, 48px); color: var(--m-gold); text-shadow: 4px 4px 0 #000, 0 0 20px rgba(242, 193, 78, 0.6); margin: 16px 0; letter-spacing: 2px; }
+.vTag { font-family: var(--m-font-head); font-size: clamp(7px, 1.4vw, 10px); color: var(--m-cream); line-height: 2; }
+.vWish { font-family: var(--m-font-head); font-size: clamp(10px, 2vw, 14px); color: var(--m-pink-2); margin-top: 14px; text-shadow: 2px 2px 0 #000; }
+.vIcons { display: flex; justify-content: center; gap: 18px; margin: 12px 0; }
+.vBtns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+@media print {
+  .modalBackdrop { position: static; background: #fff; padding: 0; }
+  .modal { width: 100%; max-height: none; box-shadow: none; }
+  .modalHead { display: none; }
+  .voucher { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ---------- bottom bar (stage px) ---------- */
+.barBtn {
+  position: absolute;
+  top: 878px;
+  width: 112px;
+  height: 84px;
+  background: transparent;
+  border: 3px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s steps(2);
+}
+.barBtn:hover, .barBtn:focus-visible { border-color: var(--m-pink); box-shadow: 0 0 14px 2px rgba(255, 63, 164, 0.6), inset 0 0 12px rgba(255, 63, 164, 0.35); transform: translateY(-4px); outline: none; }
+.barBtn:active { transform: translateY(2px) scale(0.96); }
+.barBtn .lbl {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -6px);
+  background: var(--m-black);
+  color: var(--m-pink-2);
+  border: 2px solid var(--m-gold);
+  font-family: var(--m-font-head);
+  font-size: 8px;
+  padding: 5px 7px;
+  white-space: nowrap;
+  display: none;
+  pointer-events: none;
+  z-index: 5;
+}
+.barBtn:hover .lbl, .barBtn:focus-visible .lbl { display: block; }
+.barBtn .badge { position: absolute; right: 6px; top: 4px; }
+.barBtn.locked { cursor: not-allowed; }
+.barBtn.locked::after { content: '🔒'; position: absolute; right: 8px; bottom: 6px; font-size: 16px; filter: grayscale(1); }

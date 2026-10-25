@@ -1,0 +1,124 @@
+:root {
+  --m-green: #0f2a1d;
+  --m-green-2: #16402b;
+  --m-wood: #5a3a1e;
+  --m-wood-2: #3b2410;
+  --m-gold: #f2c14e;
+  --m-gold-2: #c58f1f;
+  --m-pink: #ff3fa4;
+  --m-pink-2: #ff7fc3;
+  --m-black: #0a0a0a;
+  --m-cream: #f5e9c8;
+  --m-font-head: 'Press Start 2P', monospace;
+  --m-font-body: 'VT323', 'Courier New', monospace;
+}
+
+.app-michelle33 { position: fixed; inset: 0; overflow: hidden; background: var(--m-black); font-family: var(--m-font-body); font-size: 20px; color: var(--m-cream); line-height: 1.25; }
+.app-michelle33 button, .app-michelle33 input { font-family: inherit; font-size: inherit; }
+
+/* ---------- pixel frame ---------- */
+.pxbox {
+  position: relative;
+  background: var(--m-green);
+  border: 4px solid var(--m-gold);
+  box-shadow: 0 0 0 4px var(--m-black), 0 0 0 6px var(--m-pink), 10px 10px 0 0 rgba(0, 0, 0, 0.6);
+  color: var(--m-cream);
+  image-rendering: pixelated;
+}
+.pxbox::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 2px dashed rgba(242, 193, 78, 0.35);
+  pointer-events: none;
+}
+.pxbox.dark { background: var(--m-black); }
+.pxbox.wood { background: linear-gradient(var(--m-wood), var(--m-wood-2)); }
+
+.pxtitle {
+  font-family: var(--m-font-head);
+  font-size: 13px;
+  color: var(--m-pink);
+  text-shadow: 3px 3px 0 var(--m-black);
+  letter-spacing: 1px;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+.pxtitle.gold { color: var(--m-gold); }
+.pxtitle.big { font-size: 20px; }
+.pxsub { font-family: var(--m-font-head); font-size: 9px; color: var(--m-gold); line-height: 1.8; }
+
+/* ---------- buttons ---------- */
+.pxbtn {
+  font-family: var(--m-font-head);
+  font-size: 11px;
+  line-height: 1;
+  padding: 12px 16px;
+  color: var(--m-black);
+  background: var(--m-pink);
+  border: 3px solid var(--m-black);
+  box-shadow: 4px 4px 0 var(--m-black), inset -3px -3px 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  text-transform: uppercase;
+  user-select: none;
+  transition: transform 0.05s steps(2);
+  position: relative;
+}
+.pxbtn:hover { background: var(--m-pink-2); transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--m-black), inset -3px -3px 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.35); }
+.pxbtn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--m-black), inset 3px 3px 0 rgba(0, 0, 0, 0.25); }
+.pxbtn:focus-visible { outline: 3px dashed var(--m-gold); outline-offset: 3px; }
+.pxbtn:disabled { opacity: 0.5; cursor: default; transform: none; }
+.pxbtn.gold { background: var(--m-gold); }
+.pxbtn.gold:hover { background: #ffd978; }
+.pxbtn.ghost { background: var(--m-green-2); color: var(--m-cream); }
+.pxbtn.ghost:hover { background: #1f5a3c; }
+.pxbtn.small { font-size: 9px; padding: 8px 10px; }
+.pxbtn.icon { padding: 8px; min-width: 40px; }
+
+.pxbar {
+  height: 18px;
+  background: var(--m-black);
+  border: 3px solid var(--m-gold);
+  box-shadow: 2px 2px 0 var(--m-black);
+  padding: 2px;
+}
+.pxbar > i {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--m-pink) 0 6px, var(--m-pink-2) 6px 8px);
+  transition: width 0.25s steps(6);
+}
+.pxbar.gold > i { background: repeating-linear-gradient(90deg, var(--m-gold) 0 6px, #ffe08a 6px 8px); }
+.pxbar.green > i { background: repeating-linear-gradient(90deg, #35c75a 0 6px, #7cf29a 6px 8px); }
+
+.pxinput {
+  background: var(--m-black);
+  color: var(--m-pink-2);
+  border: 3px solid var(--m-gold);
+  padding: 6px 8px;
+  font-family: var(--m-font-body);
+  font-size: 22px;
+  width: 100%;
+  outline: none;
+}
+.pxinput:focus { border-color: var(--m-pink); }
+
+.blink { animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.shakeX { animation: shakeX 0.4s steps(4) infinite; }
+@keyframes shakeX { 0% { transform: translate(-4px, 0); } 50% { transform: translate(4px, 2px); } 100% { transform: translate(-4px, 0); } }
+.pulse { animation: pulse 1s steps(3) infinite; }
+@keyframes pulse { 50% { transform: scale(1.08); } }
+
+.muted { opacity: 0.75; font-size: 17px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.center { text-align: center; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
+}
+@media print {
+  .app-michelle33 { position: static; background: #fff; }
+  .no-print { display: none !important; }
+}

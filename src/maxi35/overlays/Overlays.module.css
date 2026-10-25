@@ -1,0 +1,157 @@
+.full { position: absolute; inset: 0; z-index: 8500; }
+
+/* ---------- Boot ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #c0c0c0;
+  font-family: var(--font-term);
+  font-size: clamp(16px, 2.4vmin, 26px);
+  padding: 4vmin 5vmin;
+  overflow: hidden;
+  z-index: 20000;
+  cursor: pointer;
+  border-radius: 2vmin;
+}
+.bootInner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+.bootLogo {
+  font-family: var(--font-pixel);
+  font-size: clamp(18px, 4vmin, 40px);
+  color: var(--neon-green);
+  text-shadow: 0 0 8px var(--neon-green), 3px 3px 0 #004400;
+  margin-bottom: 2vmin;
+  animation: bootGlow 1.2s ease-in-out infinite alternate;
+}
+@keyframes bootGlow { from { text-shadow: 0 0 4px var(--neon-green), 3px 3px 0 #004400; } to { text-shadow: 0 0 18px var(--neon-green), 3px 3px 0 #004400; } }
+.bootLine { white-space: pre; line-height: 1.35; min-height: 1.35em; }
+.bootLine .ok { color: var(--neon-green); }
+.bootLine .warn { color: #ffd23f; animation: blink 0.6s steps(2, start) infinite; }
+.bootBar { display: inline-block; width: 14em; height: 0.8em; border: 1px solid #c0c0c0; vertical-align: middle; margin-left: 1em; padding: 1px; }
+.bootBar i { display: block; height: 100%; background: var(--neon-green); transition: width 0.3s steps(6); }
+.pressStart { margin-top: 3vmin; font-family: var(--font-pixel); font-size: clamp(12px, 2vmin, 22px); color: #fff; }
+.scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0 2px, transparent 2px 4px);
+  pointer-events: none;
+  z-index: 3;
+}
+.crtFlicker { position: absolute; inset: 0; background: rgba(120, 200, 255, 0.04); animation: crtFlicker 0.12s steps(2) infinite; pointer-events: none; z-index: 3; }
+@keyframes crtFlicker { 0% { opacity: 1; } 100% { opacity: 0.4; } }
+.crtCurve { position: absolute; inset: 0; box-shadow: inset 0 0 12vmin rgba(0, 0, 0, 0.9); pointer-events: none; z-index: 4; border-radius: 2vmin; }
+.cursorBlock { display: inline-block; width: 0.6em; height: 1em; background: #c0c0c0; vertical-align: text-bottom; animation: blink 1s steps(2, start) infinite; }
+
+/* ---------- BSOD ---------- */
+.bsod {
+  position: absolute;
+  inset: 0;
+  background: #0000aa;
+  color: #c0c0c0;
+  font-family: var(--font-term);
+  font-size: 24px;
+  padding: 120px 140px;
+  z-index: 20000;
+  white-space: pre-wrap;
+  cursor: pointer;
+  line-height: 1.3;
+}
+.bsodTitle { display: inline-block; background: #c0c0c0; color: #0000aa; padding: 0 8px; margin-bottom: 24px; }
+
+/* ---------- Party ---------- */
+.party { pointer-events: none; overflow: hidden; }
+.partyText {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-pixel);
+  font-size: 84px;
+  text-align: center;
+  line-height: 1.2;
+  color: #fff;
+  -webkit-text-stroke: 3px #000;
+  text-shadow: 6px 6px 0 #ff2fd6, -6px -6px 0 #19f5ff, 0 0 30px #fff;
+  animation: partyPulse 0.5s steps(2) infinite, hue 2s linear infinite;
+  white-space: nowrap;
+}
+@keyframes partyPulse { 0% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); } 100% { transform: translate(-50%, -50%) scale(1.08) rotate(2deg); } }
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+.partyStrobe { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.12); animation: strobe 0.25s steps(1) infinite; mix-blend-mode: screen; }
+@keyframes strobe { 0% { background: rgba(255, 47, 214, 0.18); } 33% { background: rgba(25, 245, 255, 0.18); } 66% { background: rgba(57, 255, 20, 0.18); } }
+.dancers { position: absolute; bottom: 52px; left: 0; right: 0; display: flex; justify-content: space-around; padding: 0 120px; }
+.dancer { animation: dancer 0.45s steps(2) infinite; transform-origin: bottom center; }
+.dancer > span { transform: scale(2.2); transform-origin: bottom center; display: inline-block; }
+.dancer:nth-child(2n) { animation-delay: 0.22s; }
+@keyframes dancer { 0% { transform: translateY(0) scaleX(1); } 50% { transform: translateY(-14px) scaleX(-1); } 100% { transform: translateY(0) scaleX(1); } }
+.partyStop {
+  position: absolute;
+  right: 20px;
+  top: 70px;
+  pointer-events: auto;
+  z-index: 2;
+}
+.partySub { position: absolute; left: 50%; top: 58%; transform: translateX(-50%); font-family: var(--font-pixel); font-size: 20px; color: var(--gold); text-shadow: 2px 2px 0 #000; animation: blink 0.5s steps(2, start) infinite; }
+
+/* ---------- Trip ---------- */
+.trip { pointer-events: none; }
+.tripLayer {
+  position: absolute; inset: 0;
+  background: url('/scene.webp') 0 0 / 1536px 1024px no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.45;
+}
+.tripRed { filter: url(#none) sepia(1) saturate(8) hue-rotate(-50deg); animation: driftR 0.9s ease-in-out infinite alternate; }
+.tripCyan { filter: sepia(1) saturate(8) hue-rotate(140deg); animation: driftC 1.1s ease-in-out infinite alternate; }
+@keyframes driftR { from { transform: translate(-6px, 2px); } to { transform: translate(10px, -4px); } }
+@keyframes driftC { from { transform: translate(8px, -3px); } to { transform: translate(-9px, 5px); } }
+.tripSpin { position: absolute; font-size: 90px; animation: spinScale 1.6s linear infinite; filter: drop-shadow(0 0 12px #ff2fd6); }
+@keyframes spinScale { 0% { transform: rotate(0) scale(0.6); } 50% { transform: rotate(180deg) scale(1.3); } 100% { transform: rotate(360deg) scale(0.6); } }
+.tripBox {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  pointer-events: auto;
+  animation: wobble 0.7s ease-in-out infinite alternate;
+}
+@keyframes wobble { from { transform: translate(-50%, -50%) rotate(-3deg); } to { transform: translate(-50%, -50%) rotate(3deg); } }
+.tripBody { padding: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.tripButtons { display: flex; justify-content: center; gap: 8px; padding: 0 12px 12px; }
+
+/* Applied to the stage while the trip is active. */
+:global(.trip-active) {
+  animation: tripHue 1.2s linear infinite, tripWarp 2.2s ease-in-out infinite alternate;
+}
+@keyframes tripHue { to { filter: hue-rotate(360deg) saturate(2); } }
+@keyframes tripWarp { from { transform: scale(var(--stage-scale)) skew(0.6deg, -0.4deg); } to { transform: scale(var(--stage-scale)) skew(-0.6deg, 0.5deg); } }
+
+/* ---------- Achievement toasts ---------- */
+.toasts {
+  position: absolute;
+  right: 12px;
+  bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9400;
+  align-items: flex-end;
+}
+.toast {
+  width: 320px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+}
+.toastBody { display: flex; gap: 12px; padding: 10px 12px; align-items: center; }
+.toastIcon { font-size: 34px; animation: toastSpin 0.8s steps(4) infinite; }
+@keyframes toastSpin { 0% { transform: rotate(-12deg) scale(1); } 50% { transform: rotate(12deg) scale(1.2); } 100% { transform: rotate(-12deg) scale(1); } }
+.toastTitle { font-family: var(--font-pixel); font-size: 9px; color: var(--win-title); margin-bottom: 4px; }
+.toastName { font-weight: bold; font-size: 14px; }
+.toastDesc { font-size: 12px; color: #333; }
+.toastGlow { animation: toastGlow 0.6s steps(2) 5; }
+@keyframes toastGlow { 50% { box-shadow: 0 0 0 4px var(--gold), 4px 4px 0 rgba(0, 0, 0, 0.4); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .partyText, .partyStrobe, .dancer, .tripRed, .tripCyan, .tripSpin, .tripBox, .toastIcon, .bootLogo, .crtFlicker { animation: none !important; }
+  :global(.trip-active) { animation: none !important; filter: hue-rotate(120deg) saturate(1.6); }
+}
