@@ -7,6 +7,7 @@ import { TitleBar } from './desktop/TitleBar';
 import { MenuBar } from './desktop/MenuBar';
 import { IconBar } from './desktop/IconBar';
 import { Taskbar } from './desktop/Taskbar';
+import { FrameExtension } from './desktop/FrameExtension';
 import { Scene, type Bubble } from './scene/Scene';
 import { ParticleCanvas, type ParticleHandle } from '../shared/fx/Particles';
 import { CursorTrail } from '../shared/fx/CursorTrail';
@@ -23,7 +24,7 @@ import { usePageVisible } from '../shared/hooks/usePageVisible';
 import { useInterval } from '../shared/hooks/useInterval';
 import { PROGRAM_IDS } from './apps/registry';
 import { music } from './audio/music';
-import { PINT_MESSAGES, RANDOM_NOTIFICATIONS, TOAST_LINES, WIZARD_WISDOM } from './content/texts';
+import { COLLECTIBLES, PINT_MESSAGES, RANDOM_NOTIFICATIONS, TOAST_LINES, WIZARD_WISDOM } from './content/texts';
 import { STAGE_W } from '../shared/stage/constants';
 
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -58,8 +59,8 @@ export function Desktop({ booted }: { booted: boolean }) {
   }, []);
 
   const notify = useCallback<DesktopActions['notify']>(
-    (title, text, icon = 'info') => {
-      wm.message({ title, text, icon });
+    (title, text, icon = 'info', buttons) => {
+      wm.message({ title, text, icon, buttons });
     },
     [wm],
   );
@@ -203,13 +204,18 @@ export function Desktop({ booted }: { booted: boolean }) {
         bubble('Zzz... *schnarch* ...wuff... Zzz', 150, 540);
       } else if (which === 'cat') {
         audio.play('tick');
-        bubble('Miau. (Ignoriert dich weiter.)', 1050, 720);
+        const n = game.inc('catPets');
+        if (n === 5 && !game.data.collectibles.includes('hairball')) {
+          game.collect('hairball');
+          bubble('*würg* ...ein Geschenk. Für dich.', 1050, 720);
+          window.setTimeout(() => notify('Fundstück', ['Die Katze hat dir einen Haarball geschenkt.', 'Ins Inventory gelegt. Mit spitzen Fingern.'], 'ok'), 800);
+        } else bubble(n % 2 ? 'Miau. (Ignoriert dich weiter.)' : 'Mrrp. (Duldet dich.)', 1050, 720);
       } else {
         audio.play('tick');
         bubble('Zzz... (träumt von Guinness-Schaum)', 1300, 850);
       }
     },
-    [audio, bubble],
+    [audio, bubble, game, notify],
   );
 
   const alien = useCallback(() => {
@@ -237,9 +243,23 @@ export function Desktop({ booted }: { booted: boolean }) {
     let i = Math.floor(Math.random() * RANDOM_NOTIFICATIONS.length);
     if (i === lastNotification.current) i = (i + 1) % RANDOM_NOTIFICATIONS.length;
     lastNotification.current = i;
+    if (Math.random() < 0.2) {
+      wm.message({
+        title: 'Fehler',
+        text: ['pint.dll wurde nicht gefunden.', 'Die Anwendung kann ohne Pint nicht fortgesetzt werden.'],
+        icon: 'error',
+        buttons: [
+          { label: 'Neu installieren', primary: true, onClick: () => pourPint() },
+          { label: 'Ignorieren' },
+        ],
+        x: 900 + Math.random() * 200,
+        y: 200 + Math.random() * 400,
+      });
+      return;
+    }
     const n = RANDOM_NOTIFICATIONS[i];
     wm.message({ title: n.title, text: n.text, icon: n.icon, x: 1000 + Math.random() * 200, y: 120 + Math.random() * 500 });
-  }, [wm]);
+  }, [wm, pourPint]);
 
   const actions = useMemo<DesktopActions>(
     () => ({
@@ -325,6 +345,11 @@ export function Desktop({ booted }: { booted: boolean }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [startParty, pourPint, showVoucher]);
 
+  // Loot Goblin: all collectibles found.
+  useEffect(() => {
+    if (COLLECTIBLES.every((c) => game.data.collectibles.includes(c.id))) ach.unlock('lootgoblin');
+  }, [game.data.collectibles, ach]);
+
   // Curiosity achievement: all programs opened at least once.
   useEffect(() => {
     if (PROGRAM_IDS.every((id) => game.data.openedPrograms.includes(id))) ach.unlock('curiosity');
@@ -354,6 +379,7 @@ export function Desktop({ booted }: { booted: boolean }) {
           {bsod && <Bsod onDismiss={dismissBsod} />}
         </div>
       </Stage>
+      {booted && <FrameExtension />}
     </ActionsCtx.Provider>
   );
 }

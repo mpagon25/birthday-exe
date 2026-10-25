@@ -56,11 +56,16 @@ Hosting: Da die Routen clientseitig sind, muss der Host Deep-Links wie `/michell
 - `scene/` – Hotspots (transparente Buttons über Bildobjekten), Ambient-Overlays (Feuer,
   Neon, Discokugel, Pilze, Rauch, Lichterketten, Zzz), Pixel-Läufer.
 - `apps/` – alle Fenster: Level-Up, Gutschein, WhiskeyTasting, Zauberer, Boulder-Minigame,
-  W20, Rabbit Hole, Kalender, Internet Explorer, Inventory, Achievements, Paint, Tavern Radio,
-  GameNight, Kaffee, Quest Log, Einstellungen, Ausführen, Über. Registry in `registry.tsx`.
+  W20, Rabbit Hole, Kalender, Internet Explorer, Inventory mit Fundstücken, Achievements, Paint,
+  Tavern Radio, GameNight, Kaffee, Quest Log, Einstellungen, Ausführen, Über. Minigames mit
+  echter Mechanik: Bouldern, PubQuiz (Zeitlimit), Zapfhahn (Timing), Dungeon (W20-Textabenteuer),
+  Pintsweeper (Minesweeper), Botanik (Memory). Registry in `registry.tsx`.
+- `desktop/FrameExtension.tsx` – verlängert Titelleiste, Menü und Taskbar über die volle
+  Viewport-Breite, wenn die 3:2-Bühne Rand hat.
 - `audio/` – alle Sounds und vier Musiktitel werden per Web Audio synthetisiert; das Spellcaster-Theme startet nach dem Boot automatisch, Umschalter in Taskbar und Einstellungen. Keine
   Audiodateien, kein Lizenzrisiko. Mute und Lautstärke in Taskbar, Radio und Einstellungen.
-- `achievements/` – 16 Achievements, gespeichert im LocalStorage.
+- `achievements/` – 23 Achievements, gespeichert im LocalStorage. Acht Fundstücke sind in Spielen,
+  Büchern, Katze und versteckten Dateien verteilt (Inventory zeigt Hinweise).
 - `overlays/` – Bootscreen, Party Mode, Pilz-Modus, BSOD, Achievement-Toasts.
 - `content/texts.ts` – alle Texte zentral.
 
@@ -81,7 +86,7 @@ Hosting: Da die Routen clientseitig sind, muss der Host Deep-Links wie `/michell
 ## Geheimnisse (maxi35)
 
 - Konami-Code oder fünf schnelle Klicks aufs Schild: Party Mode.
-- Start → Ausführen: `help` zeigt die Befehle.
+- Start → Ausführen: `help` zeigt die Befehle, `dir` zeigt versteckte Dateien.
 - Rotes Pilz-Icon, Pilze im Bild oder Menü 420: Reality.exe.
 - Kaninchen: Follow the white rabbit.
 - Strg+P schenkt ein Pint ein, Strg+O öffnet den Gutschein, Esc schließt das aktive Fenster.

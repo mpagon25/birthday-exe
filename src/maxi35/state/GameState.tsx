@@ -10,13 +10,22 @@ export interface GameData {
   boulderWins: number;
   rabbitFound: boolean;
   reducedEffects: boolean;
+  collectibles: string[];
+  catPets: number;
+  bookClicks: number;
+  quizBest: number;
+  pourBest: number;
+  dungeonWins: number;
+  sweeperWins: number;
+  memoryBest: number;
 }
 
-const DEFAULT: GameData = { pints: 0, clinks: 0, wisdomSeen: 0, openedPrograms: [], diceRolls: 0, boulderWins: 0, rabbitFound: false, reducedEffects: false };
+const DEFAULT: GameData = { pints: 0, clinks: 0, wisdomSeen: 0, openedPrograms: [], diceRolls: 0, boulderWins: 0, rabbitFound: false, reducedEffects: false, collectibles: [], catPets: 0, bookClicks: 0, quizBest: 0, pourBest: 0, dungeonWins: 0, sweeperWins: 0, memoryBest: 0 };
 
 interface GameApi {
   data: GameData;
-  inc: (key: 'pints' | 'clinks' | 'wisdomSeen' | 'diceRolls' | 'boulderWins') => number;
+  inc: (key: 'pints' | 'clinks' | 'wisdomSeen' | 'diceRolls' | 'boulderWins' | 'catPets' | 'bookClicks' | 'dungeonWins' | 'sweeperWins') => number;
+  collect: (id: string) => string[];
   addOpened: (appId: string) => string[];
   set: <K extends keyof GameData>(key: K, value: GameData[K]) => void;
   reset: () => void;
@@ -28,7 +37,7 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useLocalStorage<GameData>('maxi35.state', DEFAULT);
 
   const inc = useCallback(
-    (key: 'pints' | 'clinks' | 'wisdomSeen' | 'diceRolls' | 'boulderWins') => {
+    (key: 'pints' | 'clinks' | 'wisdomSeen' | 'diceRolls' | 'boulderWins' | 'catPets' | 'bookClicks' | 'dungeonWins' | 'sweeperWins') => {
       let next = 0;
       setData((d) => {
         next = d[key] + 1;
@@ -49,13 +58,24 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
     },
     [setData],
   );
+  const collect = useCallback(
+    (id: string) => {
+      let list: string[] = [];
+      setData((d) => {
+        list = d.collectibles.includes(id) ? d.collectibles : [...d.collectibles, id];
+        return list === d.collectibles ? d : { ...d, collectibles: list };
+      });
+      return list;
+    },
+    [setData],
+  );
   const set = useCallback(
     <K extends keyof GameData>(key: K, value: GameData[K]) => setData((d) => ({ ...d, [key]: value })),
     [setData],
   );
   const reset = useCallback(() => setData(DEFAULT), [setData]);
 
-  const api = useMemo(() => ({ data, inc, addOpened, set, reset }), [data, inc, addOpened, set, reset]);
+  const api = useMemo(() => ({ data, inc, addOpened, set, reset, collect }), [data, inc, addOpened, set, reset, collect]);
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }
 
