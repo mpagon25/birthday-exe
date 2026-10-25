@@ -30,7 +30,9 @@ Hosting: Da die Routen clientseitig sind, muss der Host Deep-Links wie `/michell
 
 ## Aufbau
 
-- `index.html`, `src/main.tsx`, `src/Router.tsx`, `src/Landing.tsx` – Einstieg, Routing, Landingpage.
+- `index.html`, `src/main.tsx`, `src/Router.tsx` – Einstieg und Routing.
+- `src/Landing.tsx` – Landingpage als „Select Player“: zwei neutrale Spielmodule mit Name und
+  Level, ohne Hinweise auf den Inhalt der Karten. Kein Bootscreen.
 - Jede Karte ist ein eigener App-Baum mit eigenem Wrapper (`.app-maxi35`, `.app-michelle33`),
   auf den ihre globalen Styles gescopt sind.
 
@@ -56,7 +58,7 @@ Hosting: Da die Routen clientseitig sind, muss der Host Deep-Links wie `/michell
 - `apps/` – alle Fenster: Level-Up, Gutschein, WhiskeyTasting, Zauberer, Boulder-Minigame,
   W20, Rabbit Hole, Kalender, Internet Explorer, Inventory, Achievements, Paint, Tavern Radio,
   GameNight, Kaffee, Quest Log, Einstellungen, Ausführen, Über. Registry in `registry.tsx`.
-- `audio/` – alle Sounds und drei Musiktitel werden per Web Audio synthetisiert. Keine
+- `audio/` – alle Sounds und vier Musiktitel werden per Web Audio synthetisiert; das Spellcaster-Theme startet nach dem Boot automatisch, Umschalter in Taskbar und Einstellungen. Keine
   Audiodateien, kein Lizenzrisiko. Mute und Lautstärke in Taskbar, Radio und Einstellungen.
 - `achievements/` – 16 Achievements, gespeichert im LocalStorage.
 - `overlays/` – Bootscreen, Party Mode, Pilz-Modus, BSOD, Achievement-Toasts.

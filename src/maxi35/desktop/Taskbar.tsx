@@ -9,6 +9,7 @@ import { usePageVisible } from '../../shared/hooks/usePageVisible';
 import { TASKBAR_MESSAGES } from '../content/texts';
 import { Icon } from './icons';
 import { StartMenu } from './StartMenu';
+import { music } from '../audio/music';
 import styles from './Chrome.module.css';
 
 const PINNED: Array<{ appId: string; label: string; icon: string }> = [
@@ -36,6 +37,8 @@ export function Taskbar() {
   const [volOpen, setVolOpen] = useState(false);
   const [msgIndex, setMsgIndex] = useState(0);
   const [progress, setProgress] = useState(3);
+  const [musicOn, setMusicOn] = useState(music.playing);
+  useInterval(() => setMusicOn(music.playing), 500);
   const trayRef = useRef<HTMLDivElement>(null);
 
   useInterval(() => setMsgIndex((i) => (i + 1) % TASKBAR_MESSAGES.length), 6000, visible);
@@ -130,6 +133,19 @@ export function Taskbar() {
           </button>
           <button className={styles.trayBtn} title="Spielstand gespeichert" onClick={() => a.notify('Speicherstand', 'Spielstand gespeichert. Checkpoint: Irish Pub.', 'ok')} aria-label="Speicherstand">
             💾
+          </button>
+          <button
+            className={styles.trayBtn}
+            title={musicOn ? 'Musik aus' : 'Musik an'}
+            aria-label={musicOn ? 'Musik aus' : 'Musik an'}
+            onClick={() => {
+              audio.unlock();
+              if (music.playing) music.stop();
+              else music.play();
+              setMusicOn(music.playing);
+            }}
+          >
+            {musicOn ? '♫' : '♪'}
           </button>
           <button className={styles.trayBtn} title="Lautstärke" onClick={() => setVolOpen((o) => !o)} aria-label="Lautstärke" aria-expanded={volOpen}>
             {audio.muted ? '🔇' : audio.volume < 0.4 ? '🔉' : '🔊'}

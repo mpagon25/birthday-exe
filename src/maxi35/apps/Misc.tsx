@@ -6,6 +6,7 @@ import { useGameState } from '../state/GameState';
 import { useAchievements } from '../../shared/achievements/AchievementsContext';
 import { useWindowManager } from '../desktop/WindowManager';
 import { useInterval } from '../../shared/hooks/useInterval';
+import { music } from '../audio/music';
 import styles from './Apps.module.css';
 
 /* ---------- GameNight.exe ---------- */
@@ -219,9 +220,26 @@ export function Settings({ close }: AppComponentProps) {
         <input type="range" min={0} max={100} value={Math.round(audio.volume * 100)} onChange={(e) => audio.setVolume(parseInt(e.target.value, 10) / 100)} aria-label="Lautstärke" />
         <span style={{ width: 36, textAlign: 'right' }}>{Math.round(audio.volume * 100)}%</span>
       </div>
+      <div className={styles.settingRow}>
+        <span style={{ width: 90 }}>Musik</span>
+        <input type="range" min={0} max={100} value={Math.round(audio.musicVolume * 100)} onChange={(e) => audio.setMusicVolume(parseInt(e.target.value, 10) / 100)} aria-label="Musiklautstärke" />
+        <span style={{ width: 36, textAlign: 'right' }}>{Math.round(audio.musicVolume * 100)}%</span>
+      </div>
       <label className={styles.settingRow}>
         <input type="checkbox" checked={audio.muted} onChange={(e) => audio.setMuted(e.target.checked)} />
         Stumm (Mute)
+      </label>
+      <label className={styles.settingRow}>
+        <input
+          type="checkbox"
+          checked={music.playing}
+          onChange={(e) => {
+            audio.unlock();
+            if (e.target.checked) music.play();
+            else music.stop();
+          }}
+        />
+        Hintergrundmusik läuft (Titel im Tavern Radio wählbar)
       </label>
       <label className={styles.settingRow}>
         <input type="checkbox" checked={game.data.reducedEffects} onChange={(e) => game.set('reducedEffects', e.target.checked)} />

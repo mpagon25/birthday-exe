@@ -22,6 +22,7 @@ import { useReducedMotion } from '../shared/hooks/useReducedMotion';
 import { usePageVisible } from '../shared/hooks/usePageVisible';
 import { useInterval } from '../shared/hooks/useInterval';
 import { PROGRAM_IDS } from './apps/registry';
+import { music } from './audio/music';
 import { PINT_MESSAGES, RANDOM_NOTIFICATIONS, TOAST_LINES, WIZARD_WISDOM } from './content/texts';
 import { STAGE_W } from '../shared/stage/constants';
 
@@ -255,6 +256,10 @@ export function Desktop({ booted }: { booted: boolean }) {
     if (!booted || welcomed.current) return;
     welcomed.current = true;
     setSignBlink(true);
+    window.setTimeout(() => {
+      music.selectById('spell');
+      music.play();
+    }, 2200);
     window.setTimeout(() => setSignBlink(false), 2600);
     window.setTimeout(() => fx.current?.confetti(780, 200, 110), 600);
     window.setTimeout(() => {
