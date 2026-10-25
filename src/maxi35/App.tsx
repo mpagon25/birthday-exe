@@ -8,6 +8,7 @@ import { GameStateProvider, useGameState } from './state/GameState';
 import { WindowManagerProvider } from './desktop/WindowManager';
 import { registry } from './apps/registry';
 import { Desktop } from './Desktop';
+import { music } from './audio/music';
 import { BootScreen } from './overlays/BootScreen';
 import type { MsgOptions } from './desktop/types';
 
@@ -43,6 +44,7 @@ export function App() {
     document.documentElement.style.colorScheme = 'light';
     return () => {
       document.documentElement.style.colorScheme = '';
+      music.stop();
     };
   }, []);
   return (
