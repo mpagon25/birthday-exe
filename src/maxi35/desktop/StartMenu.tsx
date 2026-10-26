@@ -41,6 +41,11 @@ export function StartMenu({ onClose }: { onClose: () => void }) {
     { label: 'GameNight.exe', icon: '🎮', action: () => a.openApp('gamenight') },
     { label: 'Kaffee_irl.exe', icon: '☕', action: () => a.openApp('kaffee') },
     { label: 'W20.exe', icon: '🎲', action: () => a.openApp('dice') },
+    { label: 'PubQuiz.exe', icon: '🧠', action: () => a.openApp('pubquiz') },
+    { label: 'Zapfhahn.exe', icon: '🍺', action: () => a.openApp('pour') },
+    { label: 'Dungeon.exe', icon: '🐉', action: () => a.openApp('dungeon') },
+    { label: 'Pintsweeper.exe', icon: '💣', action: () => a.openApp('sweeper') },
+    { label: 'Botanik.exe', icon: '🌿', action: () => a.openApp('botanik') },
   ];
   const system: Item[] = [
     { label: 'Einstellungen', icon: '⚙️', action: () => a.openApp('settings') },

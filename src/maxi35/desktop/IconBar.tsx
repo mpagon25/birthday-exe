@@ -45,8 +45,7 @@ export function IconBar() {
         a.openApp('boulder');
         break;
       case 'plant':
-        a.cloverRain();
-        a.notify('Botanik', 'Plants make people happier. Beweis: dieses Fenster.', 'ok');
+        a.openApp('botanik');
         break;
       case 'coffee':
         a.openApp('kaffee');
